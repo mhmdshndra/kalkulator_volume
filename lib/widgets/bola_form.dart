@@ -15,12 +15,13 @@ class _BolaFormState extends State<BolaForm> {
   String? _errorMessage;
 
   String _formatAngka(double nilai) {
-    if (nilai % 1 == 0) {
-      String hasil = nilai.toInt().toString();
-      return hasil.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.');
+    String stringNilai = nilai.toStringAsFixed(2);
+    
+    if (stringNilai.endsWith('.00')) {
+      String bulat = nilai.round().toString();
+      return bulat.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.');
     } else {
-      String hasil = nilai.toStringAsFixed(2);
-      List<String> parts = hasil.split('.');
+      List<String> parts = stringNilai.split('.');
       String ribuan = parts[0].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.');
       return '$ribuan,${parts[1]}';
     }
